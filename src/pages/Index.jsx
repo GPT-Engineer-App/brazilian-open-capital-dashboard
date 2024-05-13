@@ -1,40 +1,52 @@
-import { Container, Table, Thead, Tbody, Tr, Th, Td, Text, VStack, Link, Box } from "@chakra-ui/react";
+import { Container, Table, Thead, Tbody, Tr, Th, Td, Text, VStack, Link, Box, Select } from "@chakra-ui/react";
 import { FaFileAlt } from "react-icons/fa";
+import { useState } from "react";
 
 const Index = () => {
-  // Dados fictícios para exemplificar
-  const dados = {
-    empresa: "EmpresaX",
-    ultimoResultado: {
-      trimestre: "3T2023",
-      data: "30/09/2023",
-    },
-    resultados: {
-      receita: {
-        atual: "R$ 500 milhões",
-        passado: "R$ 450 milhões",
+  const [selectedCompany, setSelectedCompany] = useState("EmpresaX");
+  const companies = {
+    EmpresaX: {
+      empresa: "EmpresaX",
+      ultimoResultado: {
+        trimestre: "3T2023",
+        data: "30/09/2023",
       },
-      ebitda: {
-        atual: "R$ 130 milhões",
-        passado: "R$ 120 milhões",
+      resultados: {
+        receita: {
+          atual: "R$ 500 milhões",
+          passado: "R$ 450 milhões",
+        },
+        ebitda: {
+          atual: "R$ 130 milhões",
+          passado: "R$ 120 milhões",
+        },
+        lucroLiquido: {
+          atual: "R$ 70 milhões",
+          passado: "R$ 65 milhões",
+        },
       },
-      lucroLiquido: {
-        atual: "R$ 70 milhões",
-        passado: "R$ 65 milhões",
+      expectativas: {
+        receita: "5%",
+        ebitda: "8%",
+        lucroLiquido: "7%",
       },
+      reacaoMercado: "-3%",
+      resumo: "A EmpresaX apresentou um crescimento sólido em receita e EBITDA, refletindo uma melhoria operacional. No entanto, o mercado reagiu negativamente devido às expectativas altas que não foram totalmente atendidas, resultando em uma queda de 3% no preço das ações desde a divulgação dos resultados.",
     },
-    expectativas: {
-      receita: "5%",
-      ebitda: "8%",
-      lucroLiquido: "7%",
-    },
-    reacaoMercado: "-3%",
-    resumo: "A EmpresaX apresentou um crescimento sólido em receita e EBITDA, refletindo uma melhoria operacional. No entanto, o mercado reagiu negativamente devido às expectativas altas que não foram totalmente atendidas, resultando em uma queda de 3% no preço das ações desde a divulgação dos resultados.",
   };
+
+  const dados = companies[selectedCompany];
 
   return (
     <Container maxW="container.xl">
       <VStack spacing={5}>
+        <Select placeholder="Select company" onChange={(e) => setSelectedCompany(e.target.value)}>
+          {Object.keys(companies).map((company) => (
+            <option key={company} value={company}>
+              {company}
+            </option>
+          ))}
+        </Select>
         <Text fontSize="2xl" fontWeight="bold">
           {dados.empresa} - Último Resultado: {dados.ultimoResultado.trimestre}, {dados.ultimoResultado.data}
         </Text>
